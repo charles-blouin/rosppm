@@ -15,16 +15,18 @@ More instructions are presented in the following [link](https://404warehouse.net
 ## Running the code
 
 ```
-rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:115200
+roscore
+rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:=115200
+rostopic pub --once /rosppm_arduino/set_ppm rosppm/ppm_io '{header: auto, a: 1.0, b: 0.5, c: 0., d: 0., e: 0., f: 0., g: 0., h: 0., i: 1.}'
 ```
 
 ## Launching rosppm
-The simplest way to see if usb2ppm is properly working is to use roslaunch
+The simplest way to see if rosppm is properly working is to use roslaunch
 First, launch the roscore in a new terminal window:
 ```
 roscore
 ```
-Next, in a new terminal, run the usb2ppm send_Tx launch file which subscribes channel values and publish it to the transmitter
+Next, in a new terminal, run the rosserial send_Tx launch file which subscribes channel values and publish it to the transmitter
 
 ```
 roslaunch rosppm send_Tx.launch
@@ -50,6 +52,7 @@ sudo apt-get install ros-{ROS-DISTRO}-rosserial-arduino
 sudo apt-get install ros-{ROS-DISTRO}-rosserial
 ```
 Tutorial for rosserial can be found in the [rosserial wiki](http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup)
+rosppm is using custom messages. You need to follow the rosserial tutorial to setup your arduino IDE.
 
 ### Installing rosppm
 Install rosppm package by placing the code in the source folder in catkin_ws
@@ -62,5 +65,5 @@ catkin init
 cd ~/catkin_ws/src
 git clone https://github.com/gokoreas/rosppm.git
 cd ~/catkin_ws
-catkin_make --pkg usb2ppm_ros
+catkin_make --pkg rosppm
 ```

@@ -27,6 +27,8 @@
 #define mode_ppmout 1
 #define mode_ppmin 0
 
+#define BAUD 115200
+
 //Timer variables
 int timer_accumulator = 0;         //accumulator. Used to calculate the frame padding
 int timer_ptr = 0;                 //timer array pointer
@@ -68,15 +70,17 @@ void setup()
 {
   // ROS Configurations
   /// Initialize topics
+  nh.getHardware()->setBaud(BAUD);
+  // Serial.begin(); // Initialize Serial
   nh.initNode();
   nh.advertise(pub_read_ppm);
   nh.subscribe(sub_set_ppm);
   
   while(!nh.connected()){    nh.spinOnce();  }
   /// Get parameters
-  if(! nh.getParam("/rosppm/mode", mode, 2)){
-    mode[0] = 0;
-  }
+  //if(! nh.getParam("/rosppm/mode", mode, 2)){
+  //  mode[0] = 0;
+  //}
     
   // Hardware settings
   /// Set Pinmodes
@@ -84,7 +88,7 @@ void setup()
   pinMode(ppmin_PIN, INPUT);
   pinMode(13, OUTPUT); //status LED
   
-  //Serial.begin(115200); // Initialize Serial
+  
   // Setup Timer for ppm signal generation
   TCCR1A = B00110001; // Compare register B used in mode '3'
   TCCR1B = B00010010; // WGM13 and CS11 set to 1
@@ -115,6 +119,6 @@ void loop(){
   timer_loopcount(); //Counter for handshake
   nh.spinOnce();
   
-  delay(10);
+  delay(5);
    
 }
