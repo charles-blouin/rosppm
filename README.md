@@ -1,11 +1,10 @@
-# rosppm
+# rosppm (quadcopter_control)
 
 rosppm is a ROS package which enables ROS to interface with an mcu that generates ppm signal to interface with an RC transmitter.
+This is a version modified to received values and publish them as quickly as possible. 
 
 ## Features
 - Transmit Channel values to the transmitter using the trainer port
-- Receive stick values from the transmitter coming out of the trainer port
-- Arm the autopilot using usb2ppm_ros (Work in progress)
 
 ## Hardware
 Currently tested transmitters follow as below, but in principle will be compatible with most ppm compatible transmitters when followed proper wiring.
@@ -20,27 +19,7 @@ rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:=115200
 rostopic pub --once /rosppm_arduino/set_ppm rosppm/ppm_io '{header: auto, a: 1.0, b: 0.5, c: 0., d: 0., e: 0., f: 0., g: 0., h: 0., i: 1.}'
 ```
 
-## Launching rosppm
-The simplest way to see if rosppm is properly working is to use roslaunch
-First, launch the roscore in a new terminal window:
-```
-roscore
-```
-Next, in a new terminal, run the rosserial send_Tx launch file which subscribes channel values and publish it to the transmitter
 
-```
-roslaunch rosppm send_Tx.launch
-```
-
-For receiving the transmitter channel values, launch the read_Tx launch file which publishes the channel values of the stick inputs of the transmitter
-
-```
-roslaunch rosppm read_Tx.launch
-```
-Finally, to watch the published values from the transmitter, in a new terminal.
-```
-rostopic echo /rosppm/channels
-```
 
 ##Install
 ### Installing Dependencies
@@ -63,7 +42,7 @@ cd ~/catkin_ws
 catkin init
 
 cd ~/catkin_ws/src
-git clone https://github.com/gokoreas/rosppm.git
+git clone https://github.com/charles-blouin/rosppm
 cd ~/catkin_ws
 catkin_make --pkg rosppm
 ```

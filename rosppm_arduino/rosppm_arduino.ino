@@ -103,8 +103,9 @@ void setup()
 void loop(){
   
   set_ppm(); //Set pulse values for PPM signal
-  read_ppm();
-  
+  // read_ppm();
+
+  /*
   //Encode Read ppm values
   msg_read_ppm.a = read_val[1];
   msg_read_ppm.b = read_val[2];
@@ -112,13 +113,14 @@ void loop(){
   msg_read_ppm.d = read_val[4];
   msg_read_ppm.e = read_val[5];
   msg_read_ppm.f = read_val[6];
+  */
   
   //Publish read ppm values
-  pub_read_ppm.publish(&msg_read_ppm);
+  // pub_read_ppm.publish(&msg_read_ppm);
   
   timer_loopcount(); //Counter for handshake
   nh.spinOnce();
   
-  delay(5);
+  delay(3);
    
 }
